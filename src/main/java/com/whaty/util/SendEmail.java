@@ -10,6 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 /** 
+ * 163邮箱发邮件
 * @className:SendEmail.java
 * @classDescription:
 * @author:gengqiao
