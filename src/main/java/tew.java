@@ -10,8 +10,7 @@ public class tew {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String ss="../../../../../../../../../../etc/passwd.zip";
-	 System.out.println(ss);
-		System.out.println(ss.replaceAll("\\.\\.", ""));
+	  String item="ifnull(bm.bmcount, 0) as bmcount";
+	  System.out.println(item.split(" as ").length == 2);
 	}
 }
