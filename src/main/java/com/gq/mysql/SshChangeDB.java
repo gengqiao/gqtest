@@ -21,7 +21,7 @@ public class SshChangeDB {
 	static int rport = 3306;//远程MySQL服务端口 
 	static String sshhost = "210.14.140.85";//远程服务器地址
 	static String sshusername = "readonly";//服务器用户名
-	static String sshPassword = "v1Riz8hTex";//服务器密码
+	static String sshPassword = "";//服务器密码
 	static int sshport = 22;
 	static String filePath = "E:\\delsql.txt";
 	static List delList;
@@ -117,7 +117,7 @@ public class SshChangeDB {
 			System.out.println("=============");
 			go();
 			//映射到本地的服务
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:" + lport + "/learning_space_1_zhw", "tylearning_user", "S4XwPbzWQDfq");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:" + lport + "/learning_space_1_zhw", "tylearning_user", "");
 			System.out.println("--------------");
 			getData(conn);
 			writeTxt();
