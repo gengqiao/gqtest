@@ -53,7 +53,8 @@ public class Download {
 
 	}
 
-	public static void downloadFile(URL theURL, String filePath) throws IOException {
+	public static void downloadFile(String urlPath, String filePath) throws IOException {
+		URL theURL = new URL(urlPath);
 		File dirFile = new File(filePath);
 		if (!dirFile.exists()) {
 			//文件路径不存在时，自动创建目录

@@ -179,7 +179,7 @@ public class TestFileDirectory {
 	}
 
 	//文件复制
-	private static void copyFile(String oldPath, String newPath) { // 复制文件
+	public static void copyFile(String oldPath, String newPath) { // 复制文件
 		try {
 			int bytesum = 0;
 			int byteread = 0;

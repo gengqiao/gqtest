@@ -16,6 +16,7 @@ public class ExportClassMaven {
 	private List<String> javaRootLs = new ArrayList<String>();
 	private boolean isExportAll = false;// 是否提取javaRoot目录下所有的文件，false:只提取java文件相对应的.class文件，true:提取java文件相对应的.class文件与其它文件
 
+	
 	public static void main(String[] args) {
 
 		// 用svn导出更新的文件，存放到d:\svnupdate中
@@ -25,19 +26,9 @@ public class ExportClassMaven {
 
 		ExportClassMaven exportClass = new ExportClassMaven();
 		//央企班组长
-//		exportClass.exportAll("F:\\svn_update", "E:\\myeclipseworkspace\\xm_scetraining", true);// 提取在svn提取目录下，除WebRoot
-		//exportClass.exportAll("D:\\svn_update_Maven\\src\\main", "F:\\MyEclipseWorkRoom1\\src\\main\\webapp", true);// 提取在svn提取目录下，除WebRoot
-		exportClass.exportAll("E:\\svn_update_Maven\\src\\main", "E:\\soft\\workspace_demo\\thbzz_maven\\WebRoot", true);// 提取在svn提取目录下，除WebRoot
-		
+		exportClass.exportAll("E:\\svn_update_Maven\\thbzz_maven\\src\\main", "E:\\soft\\workspace_demo\\thbzz_maven\\WebRoot", true);// 提取在svn提取目录下，除WebRoot
 		//中国残联
-//		exportClass.exportAll("F:\\svn_update", "E:\\myeclipseworkspace\\xm_zgcl_mysql", true);// 提取在svn提取目录下，除WebRoot
-		//湖南班组长
-//		exportClass.exportAll("F:\\svn_update", "E:\\myeclipseworkspace\\xm_hnbzz", true);// 提取在svn提取目录下，除WebRoot
-		//通用班组长
-//		exportClass.exportAll("F:\\svn_update", "E:\\myeclipseworkspace\\xm_tybzz_mysql", true);// 提取在svn提取目录下，除WebRoot
-		// 文件目录下其它目录相对应的class文件
-		// exportClass.exportAllByJavaRoot("D:\\svnupdate",
-		// "F:\\myproject\\wys2", true);//提取javaRoot中指定目录下的相对应的class文件
+		//exportClass.exportAll("E:\\svn_update_Maven\\xm_zgcl\\zgcl_mysql_maven\\src\\main", "E:\\soft\\workspace_demo\\zgcl_mysql\\WebRoot", true);// 提取在svn提取目录下，除WebRoot
 
 	}
 

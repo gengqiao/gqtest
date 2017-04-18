@@ -1,5 +1,4 @@
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.Constructor;
 
 /** 
 * @className:mytest.java
@@ -13,29 +12,38 @@ public class mytest {
 	 */
 	public static void main(String[] args) {
 		
-		Class<?> clazz=Test.class;
+		Class<?> clazz=Singleton.class;
 		try {
+			
+			Constructor[]  sss=	clazz.getDeclaredConstructors();
+			
+			for(Constructor s:sss){
+				System.out.println("所有方法："+s);
+			}
+			
+			Constructor c0=clazz.getDeclaredConstructor();   
+            c0.setAccessible(true);   
+              
+            Singleton po=(Singleton)c0.newInstance();   
+            System.out.println("不带参的构造函数\t"+po); 
+            /*	
+			Constructor   c=	clazz.getDeclaredConstructor(new Class[]{int.class,String.class});   
+			
+			c.setAccessible(true);
+			Test t=(Test) c.newInstance(new Object[]{1,"诺基亚"});   
+			System.out.println("带参的构造函数\t"+t); 
+			//t.say("ss");
+*/			
+			
+		/*	
+			
 			Method method=clazz.getMethod("say", String.class);
 			
 			method.invoke(clazz.newInstance(), "gengqiao");
 			
-			
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
+			*/
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -47,8 +55,18 @@ public class mytest {
 
 class Test{
 	
-	public void say(String name){
-		System.out.println("---------"+name);
-	}
+	int price;  
+    String brand;  
+    private Test(){  
+          
+    }  
+    private Test(int price,String brand){  
+        this.price = price;  
+        this.brand = brand;  
+    }  
+    @Override  
+    public String toString() {  
+        return price + "\t"+brand;  
+    }  
 	
 }
