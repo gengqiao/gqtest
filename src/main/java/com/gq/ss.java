@@ -23,8 +23,11 @@ private static final String PASSWORD_CRYPT_KEY = "whaty_thty";
 
 private final static String DES = "DES"; 
 	public static void main(String[] args) {
-		String s=decrypt("BE52692B35DD999065775115B4AA872FF91B71D076E53FB731699E4B45A229921D18429D5460D7C1A3F69245735030F220D203E8849D6CDA84B9564C18214BC638D8464A65654ED4");
-		System.out.println(s);
+		/*String s=decrypt("BE52692B35DD999065775115B4AA872FF91B71D076E53FB731699E4B45A229921D18429D5460D7C1A3F69245735030F220D203E8849D6CDA84B9564C18214BC638D8464A65654ED4");
+		System.out.println(s);*/
+       String ss="'null'ssss";
+      System.out.println( ss.replaceAll("'null'", "null"));
+
 	}
 	
     public static byte[] decrypt(byte[] src, byte[] key)throws Exception { 

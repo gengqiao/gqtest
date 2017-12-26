@@ -21,7 +21,11 @@ public class excletest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		readExcle();
+		//readExcle();
+		int a=1;
+		a=a+=1;
+		 System.out.println(a);
+		 System.out.println(a=+1);
 		
 	}
 	public static void readExcle(){

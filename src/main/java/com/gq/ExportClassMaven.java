@@ -26,9 +26,9 @@ public class ExportClassMaven {
 
 		ExportClassMaven exportClass = new ExportClassMaven();
 		//央企班组长
-		exportClass.exportAll("E:\\svn_update_Maven\\thbzz_maven\\src\\main", "E:\\soft\\workspace_demo\\thbzz_maven\\WebRoot", true);// 提取在svn提取目录下，除WebRoot
+		//exportClass.exportAll("E:\\svnupdate\\src\\main", "E:\\soft\\workspace_demo\\xm_scetraining\\WebRoot", true);// 提取在svn提取目录下，除WebRoot
 		//中国残联
-		//exportClass.exportAll("E:\\svn_update_Maven\\xm_zgcl\\zgcl_mysql_maven\\src\\main", "E:\\soft\\workspace_demo\\zgcl_mysql\\WebRoot", true);// 提取在svn提取目录下，除WebRoot
+		exportClass.exportAll("E:\\svnupdate\\src\\main", "E:\\store\\workspace\\zgcl_mysql\\WebRoot", true);// 提取在svn提取目录下，除WebRoot
 
 	}
 

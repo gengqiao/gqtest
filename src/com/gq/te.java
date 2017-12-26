@@ -11,14 +11,10 @@ import java.util.List;
 * @createTime:2016-7-25
 */
 public class te {
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-		String [] str={"103","104","105","106","107","108"};
-		List list =Arrays.asList(str);
-    System.out.println(list.contains("100"));
+				String loginId="ssssssssssssssssssssss";
+				String te1=te.class.getName()+loginId.hashCode();
+				System.out.println(te1);
 	}
 }

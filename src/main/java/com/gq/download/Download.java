@@ -3,11 +3,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
+
 import com.gq.mysql.ChangeDB;
 /**
  * 从线上直接下载文件，并通过sql处理文件
@@ -15,67 +18,97 @@ import com.gq.mysql.ChangeDB;
  *
  */
 public class Download {
+	static String imagepath = "I:\\运营项目\\残联平台\\五期班结业\\五期班补考\\image\\";
+	static String logpath = "I:\\运营项目\\残联平台\\五期班结业\\五期班补考\\image\\log.txt";
 	public static void main(String[] args) {
-		Connection conn=	ChangeDB.go("jyzdy", "", "125.208.27.156", 3307, "192.168.148.18", 13304, "zgcl", "zgcl", "");
-		String sql="SELECT\n" +
-				"	ec.name,es.articlepath\n" +
-				"FROM\n" +
-				"	pe_bzz_examscore es,\n" +
-				"	pe_bzz_student s,\n" +
-				"	pe_enterprise e,\n" +
-				"	enum_const ec\n" +
-				"WHERE\n" +
-				"	es.STUDENT_ID = s.id\n" +
-				"AND s.FK_ENTERPRISE_ID = e.id\n" +
-				"AND s.shengFen = ec.id\n" +
-				"and es.fk_exam_batch_id='ff8080813885271601388b3bfe731752'\n" +
-				"and es.TOTAL_SCORE>=90";
+		Connection conn=	ChangeDB.getLocalConnection();
+		String sql=" SELECT jiaopeinum,photoLink from jyzdy_bukao where photoLink is not null  and isdaochu='20171225' ";
 		List list=	ChangeDB.getData(conn,sql);
 		System.out.println("总共有"+list.size()+"条数据");
 		for(int i=0;i<list.size();i++){
 			Map map=(Map)list.get(i);
-			String name=(String)map.get("NAME");
-			String articlepath=(String)map.get("articlepath");
-			//articlepath=articlepath.replaceAll("2014-4", "2014-4_1");
+			String jiaopeinum=(String)map.get("jiaopeinum");
+			String photoLink=(String)map.get("photoLink");
 			//下面添加服务器的IP地址和端口，以及要下载的文件路径
-			String urlPath = "http://www.jyzdy.org"+articlepath;
+			String urlPath = "http://www.jyzdy.org"+photoLink;
 			//下面代码是下载到本地的位置
-			String filePath = "E:\\一些项目记录\\残联\\统计数据\\五个学期的优秀论文\\一期班优秀学员论文\\"+name+"";
-			System.out.println("正在准备下载第"+i+"条数据；省份的名字是"+name);
-			try{
-				URL url = new URL(urlPath);
-				//downloadFile(url, filePath);
+			try {
+				downloadFile(urlPath,imagepath,jiaopeinum);
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			
+			
+			
 		}
 		System.out.println("=======又一个学期完成了=======");
 
 	}
-
-	public static void downloadFile(String urlPath, String filePath) throws IOException {
+	
+	
+	public static void downloadFile(String urlPath, String filePath, String NewName) throws IOException {
 		URL theURL = new URL(urlPath);
 		File dirFile = new File(filePath);
 		if (!dirFile.exists()) {
-			//文件路径不存在时，自动创建目录
+			// 文件路径不存在时，自动创建目录
 			dirFile.mkdir();
 		}
-		//从服务器上获取图片并保存
+		// 从服务器上获取图片并保存
 		URLConnection connection = theURL.openConnection();
 		String name = theURL.getFile().split("/")[theURL.getFile().split("/").length - 1];
-		InputStream in = connection.getInputStream();
-		System.out.println("准备写入");
-		FileOutputStream os = new FileOutputStream(filePath + "\\" + name);
+		String weizhui=name.split("\\.")[1];
+		String newName = NewName + "." + weizhui;
+		HttpURLConnection httpUrlConnection = (HttpURLConnection) connection;
+		InputStream in = httpUrlConnection.getInputStream();
+		connection.getExpiration();
+		int size=httpUrlConnection.getContentLength()/1024;
+		System.out.println(newName+"准备写入大小" +size );
+		String newPath=filePath + newName;
+		Long startTime = System.currentTimeMillis();
+		FileOutputStream os = new FileOutputStream(newPath);
 		byte[] buffer = new byte[4 * 1024];
 		int read;
 		while ((read = in.read(buffer)) > 0) {
 			os.write(buffer, 0, read);
 		}
+		Long endTime = System.currentTimeMillis();
+		if (endTime - startTime > 300000) {
+			writeTxtFile("下载" + newName + "所花时间：" + (endTime - startTime) + System.getProperty("line.separator"), logpath);
+		}
 		System.out.println("写入成功");
+		os.flush();
 		os.close();
 		in.close();
+		if (size > 300) {
+			System.out.println("学号为："+newName+"  的照片太大，大小为："+size);
+            System.out.println();
+            thjnpxOldDownloadImger. reduceImg(newPath, newPath, 390, 567,null);  
+		    File srcfile = new File(newPath);  
+		    System.out.println("压缩后大小为 ："+srcfile.length()/1024);
+		}
+		if(!("jpg".equals(weizhui)||"jpeg".equals(weizhui)||"png".equals(weizhui)||"gif".equals(weizhui))){
+			System.out.println("学号为："+newName+"  的照片格式不对，格式为："+weizhui);
+			thjnpxOldDownloadImger.converter(newPath,"jpeg",filePath+NewName+".jpeg");
+		}
+		ChangeDB.executeSql("INSERT into thjnpx_jp (loginId,var0) VALUES ('"+NewName+"','true') ");
+		
 	}
-	
-	
+	public static void writeTxtFile(String content, String file) {
+
+		try {
+			// 打开一个随机访问文件流，按读写方式
+			RandomAccessFile randomFile = new RandomAccessFile(file, "rw");
+			// 文件长度，字节数
+			long fileLength = randomFile.length();
+			// 将写文件指针移到文件尾。
+			randomFile.seek(fileLength);
+			randomFile.writeUTF(content);
+			randomFile.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

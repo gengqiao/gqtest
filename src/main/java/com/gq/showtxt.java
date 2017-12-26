@@ -1,6 +1,9 @@
 package com.gq;
 import java.io.*;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 /** 
 * @className:showtxt.java
 * @classDescription:
@@ -12,12 +15,9 @@ public class showtxt {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		String filePath="C:\\Users\\whaty\\Desktop\\13519895839.txt";
+		String filePath="I:\\运营项目\\节能项目\\垃圾回收\\垃圾分类100题.txt";
 		readTxtFile(filePath);
 	}
-	
-	
 	 public static void readTxtFile(String filePath){
 	        try {
 	                String encoding="UTF-8";
@@ -27,13 +27,38 @@ public class showtxt {
 	                    new FileInputStream(file),encoding);//考虑到编码格式
 	                    BufferedReader bufferedReader = new BufferedReader(read);
 	                    String lineTxt = null;
-	                   // lineTxt="\"title\":\"课程总结\",\"courseName\":\"西部地区新能源推广与应用案例\"";
+	                    int line=0;
+	                    String[] str={"A","B","C","D"};
+	                    JSONArray arr=new JSONArray();
+	                    JSONObject obj=new JSONObject();
 	                    while((lineTxt = bufferedReader.readLine()) != null){
-	                    	//lineTxt=lineTxt.replaceAll("\"title\":\".*[0-30]\",\"courseName", "\"title\":\"\",\"courseName");
-	                    	lineTxt=lineTxt.replaceAll("\"title\":\".{0,30}\",\"courseName", "\"title\":\"\",\"courseName");
-	                    	System.out.println(lineTxt);
+	                    	line=line+1;
+                           if((line-2)%6==0){//处理题目行
+                        	  String  delte= lineTxt.split("、")[0];
+                        	   lineTxt=   lineTxt.substring(delte.length()+1,lineTxt.length())  ;//先去掉题目编号
+                        	   arr.add(obj);
+                        	   obj=new JSONObject();
+                        	   
+                            for(int i=0;i<str.length;i++){
+                            	if(lineTxt.indexOf(str[i])>-1){
+                            		lineTxt=	lineTxt.replace(str[i], "");
+                            		obj.put("q", lineTxt);
+                            		System.out.println("答案："+str[i]);
+                            		obj.put("a", str[i]);
+                            	}
+                            }
+                           }else{
+                        	   if((line-1)%6!=0){
+                        		 String key=  lineTxt.split("\\.")[0];
+                        		 String value=lineTxt.split("\\.")[1];
+                        		 obj.put(key, value);
+                        		 System.out.println(key+value);
+                        	   }
+                           }	
+	                    	System.out.println(line+lineTxt);
 	                    }
 	                    read.close();
+	                    System.out.println(arr.toString());
 	        }else{
 	            System.out.println("找不到指定的文件");
 	        }
